@@ -136,31 +136,22 @@ static void bl31_security_setup(void)
 #if TRUSTED_BOARD_BOOT
 		{ PLAT_AP_TZC_PROT_SRAM1_BASE, PLAT_AP_TZC_PROT_SRAM1_END,
 			TZC_REGION_S_RDWR, PLAT_TZC_REGION_ACCESS_S_UNPRIV },
-#endif /* TRUSTED_BOARD_BOOT */
+		{ PLAT_AP_TZC_PROT_SRAM2_BASE, PLAT_AP_TZC_PROT_SRAM2_END,
+			TZC_REGION_S_RDWR, PLAT_TZC_REGION_ACCESS_S_UNPRIV },
+#endif
 		{}
 	};
 
-	const arm_tzc_regions_info_t asram_tzc_regions[] = {
-#if TRUSTED_BOARD_BOOT
-		{ PLAT_AP_TZC_PROT_SRAM2_BASE, PLAT_AP_TZC_PROT_SRAM2_END,
-			TZC_REGION_S_RDWR, PLAT_TZC_REGION_ACCESS_S_UNPRIV },
-#endif /* TRUSTED_BOARD_BOOT */
-		{}
-	};
-	
 	/* Additional settings for TZC-400 SRAM */
 	plat_tzc400_setup(RZG2L_TZC_MSRAM_BASE, &msram_tzc_regions[0]);
-	plat_tzc400_setup(RZG2L_TZC_ASRAM_BASE, &asram_tzc_regions[0]);
 }
 #endif
 
 void plat_security_setup(void)
 {
-#if IMAGE_BL2
+#if defined(IMAGE_BL2)
 	bl2_security_setup();
-#endif
-
-#if IMAGE_BL31
+#elif defined(IMAGE_BL31)
 	bl31_security_setup();
 #endif
 }
