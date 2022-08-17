@@ -28,6 +28,9 @@ $(eval $(call add_define,WA_RZG2L_GIC64BIT))
 # Enable workarounds for selected Cortex-A55 erratas.
 ERRATA_A55_1530923				:= 1
 
+# Select AT25QL128A Flash for RzBoard
+SPI_FLASH				:= AT25QL128A
+
 ifndef SPI_FLASH
   SPI_FLASH = MT25QU512ABB
 endif
